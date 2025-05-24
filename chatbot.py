@@ -1,4 +1,3 @@
-# enhanced_nlp_chatbot_real_time.py
 import streamlit as st
 import nltk
 from nltk.chat.util import Chat, reflections
@@ -12,10 +11,8 @@ from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
 
-# Download necessary nltk data on first run
 nltk.download('punkt', quiet=True)
 
-# Enhanced reflections for better conversation flow
 enhanced_reflections = {
     **reflections,
     "i am": "you are",
@@ -36,68 +33,99 @@ enhanced_reflections = {
     "me": "you"
 }
 
-# Conversation pairs with some dynamic responses
 pairs = [
     [r"hi|hello|hey", 
      [lambda user: f"Hello {user if user else 'there'}! 😊 How can I assist you today?",
       "Hi! What can I do for you?",
       "Hey! Need any help?"]],
-    
+
     [r"what is your name\?|who are you\?", 
      ["I'm NLPBot, your intelligent AI assistant!"]],
-    
+
     [r"how are you\?|how's it going\?", 
      ["I'm doing great, thanks! How about you?", "All systems operational! Ready to chat!"]],
-    
+
     [r"(.*) your name\?", 
      ["I'm NLPBot, but you can call me whatever you like! 😄"]],
-    
+
     [r"bye|goodbye|see ya", 
      ["Goodbye! Come back soon!", "See you later! 👋", "Have a great day!"]],
-    
+
     [r"thanks|thank you", 
      ["You're welcome! 😊", "Happy to help!", "Anytime!"]],
-    
+
     [r"sorry", 
      ["No worries! 😊", "It's all good!"]],
-    
+
     [r"what can you do\?", 
      ["I can:\n- Chat with you\n- Analyze sentiment\n- Summarize text\n- Recognize entities\n- Translate phrases\nAsk me anything!"]],
-    
+
     [r"tell me a joke", 
      ["Why don't scientists trust atoms? Because they make up everything! 😄", 
       "What do you call a fake noodle? An impasta! 🤣"]],
-    
+
     [r"what time is it\?", 
      [lambda _: f"The current time is {datetime.now().strftime('%H:%M:%S')}"]],
-    
+
     [r"what day is today\?", 
      [lambda _: f"Today is {datetime.now().strftime('%A, %B %d, %Y')}"]],
-    
+
     [r"help", 
      ["I can help with:\n- General questions\n- Sentiment analysis\n- Text summarization\n- Entity recognition\nWhat would you like to try?"]],
-    
+
     [r"analyze sentiment for (.*)", 
      ["Analyzing sentiment for: {0}"]],
-    
+
     [r"summarize (.*)", 
      ["Summarizing text: {0}"]],
-    
+
     [r"(.*) (weather|temperature) (.*)", 
      ["I wish I could check the weather, but I'm just a chatbot. Maybe try a weather app? ☀️⛈️"]],
-    
+
     [r"(.*) (age|old) (.*)", 
      ["I'm ageless! But my code was written quite recently. 😊"]],
-    
+
     [r"(.*) (love you|like you)", 
      ["Aww, that's sweet! I think you're pretty cool too! 😊"]],
-    
+
+
+    [r"how do i reset my password\??",
+     ["To reset your password, usually you need to click the 'Forgot Password' link on the login page. If you need help, I can guide you through the process!"]],
+
+    [r"where are you from\??",
+     ["I'm a virtual assistant created by talented developers. I don't have a physical location, but I'm here anytime you need me!"]],
+
+    [r"what languages do you speak\??",
+     ["I mainly understand and communicate in English, but I can try to understand simple phrases in other languages!"]],
+
+    [r"can you help me with (.*)",
+     ["I'd be happy to help you with {0}. What exactly would you like to know?"]],
+
+    [r"what is (.*)\?",
+     ["{0} is an interesting topic! Can you tell me more about what you'd like to know regarding {0}?"]],
+
+    [r"who created you\??",
+     ["I was created by a team of CS Students and developers to assist users like you!"]],
+
+    [r"do you have feelings\??",
+     ["I don't have feelings like humans do, but I'm always here to help you with a friendly tone!"]],
+
+    [r"can you learn new things\??",
+     ["I learn based on updates from my developers and interactions, so I'm always improving!"]],
+
+    [r"tell me something interesting",
+     ["Did you know that honey never spoils? Archaeologists have found edible honey in ancient Egyptian tombs!"]],
+
+    [r"how do i contact support\??",
+     ["You can usually contact support by emailing support@example.com or calling their hotline. Would you like me to provide specific contact info?"]],
+
     # Catch all fallback with random choice
     [r"(.*)", 
      ["I'm not sure I understand. Could you rephrase that?", 
       "Interesting! Tell me more.", 
       "I'm still learning. Could you ask me something else?"]]
 ]
+
 
 # Initialize chatbot with enhanced reflections
 chatbot = Chat(pairs, enhanced_reflections)
